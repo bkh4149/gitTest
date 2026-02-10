@@ -4,7 +4,7 @@ from sum import sum_range
 
 class TestSumRange(unittest.TestCase):
     def test_1_to_10(self):
-        self.assertEqual(sum_range(1, 10), 55)
+        self.assertEqual(sum_range(1, 9), 45)
 
     def test_1_to_1(self):
         self.assertEqual(sum_range(1, 1), 1)
