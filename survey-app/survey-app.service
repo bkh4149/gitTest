@@ -1,0 +1,14 @@
+[Unit]
+Description=Survey App (Gunicorn)
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/survey-app/survey-app
+Environment="PATH=/var/www/survey-app/venv/bin"
+ExecStart=/var/www/survey-app/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:8000 "app:create_app()"
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

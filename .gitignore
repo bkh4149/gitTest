@@ -1,1 +1,10 @@
 __pycache__/
+*.pyc
+venv/
+.env
+*.db
+survey-app/instance/
+survey_qr.png
+.pytest_cache/
+htmlcov/
+*.egg-info/

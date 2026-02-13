@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}アンケート - 集計結果{% endblock %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+{% endblock %}
+
+{% block content %}
+<h2>集計結果</h2>
+
+<p id="total-count">総回答数: 読み込み中...</p>
+
+<div class="chart-section">
+    <h3>年齢層の分布</h3>
+    <div class="chart-wrapper">
+        <canvas id="ageChart"></canvas>
+    </div>
+</div>
+
+<div class="chart-section">
+    <h3>好きな食べ物</h3>
+    <div class="chart-wrapper">
+        <canvas id="foodChart"></canvas>
+    </div>
+</div>
+
+<div class="chart-section">
+    <h3>好きな映画</h3>
+    <div id="movie-list" class="movie-list">
+        <p>読み込み中...</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+{% endblock %}

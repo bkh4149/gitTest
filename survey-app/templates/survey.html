@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}アンケート - 回答{% endblock %}
+
+{% block content %}
+<h2>アンケートにご協力ください</h2>
+
+{% if errors %}
+<div class="errors">
+    <ul>
+        {% for error in errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<form method="POST" action="{{ url_for('submit') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="form-group">
+        <label>Q1. あなたの年齢層は？</label>
+        <div class="radio-group">
+            {% for group in age_groups %}
+            <label class="radio-label">
+                <input type="radio" name="age_group" value="{{ group }}"
+                       {% if age_group == group %}checked{% endif %}>
+                <span>{{ group }}</span>
+            </label>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Q2. 好きな食べ物は？</label>
+        <div class="radio-group">
+            {% for food in food_choices %}
+            <label class="radio-label">
+                <input type="radio" name="favorite_food" value="{{ food }}"
+                       {% if favorite_food == food %}checked{% endif %}>
+                <span>{{ food }}</span>
+            </label>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="favorite_movie">Q3. 好きな映画は？（自由記述）</label>
+        <input type="text" id="favorite_movie" name="favorite_movie"
+               value="{{ favorite_movie|default('', true) }}"
+               placeholder="例: 千と千尋の神隠し" maxlength="200">
+    </div>
+
+    <button type="submit" class="btn">回答を送信する</button>
+</form>
+{% endblock %}
