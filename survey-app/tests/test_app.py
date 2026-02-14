@@ -14,6 +14,8 @@ class TestSurveyPage:
         html = response.data.decode("utf-8")
         assert "age_group" in html
         assert "favorite_food" in html
+        assert "natto_frequency" in html
+        assert "region" in html
         assert "favorite_movie" in html
 
 
@@ -24,6 +26,8 @@ class TestSubmit:
             data={
                 "age_group": "20代",
                 "favorite_food": "寿司",
+                "natto_frequency": "週に数回",
+                "region": "関東",
                 "favorite_movie": "千と千尋の神隠し",
             },
             follow_redirects=True,
@@ -38,6 +42,8 @@ class TestSubmit:
             data={
                 "age_group": "",
                 "favorite_food": "寿司",
+                "natto_frequency": "毎日",
+                "region": "関東",
                 "favorite_movie": "映画",
             },
         )
@@ -50,11 +56,41 @@ class TestSubmit:
             data={
                 "age_group": "20代",
                 "favorite_food": "",
+                "natto_frequency": "毎日",
+                "region": "関東",
                 "favorite_movie": "映画",
             },
         )
         assert response.status_code == 200
         assert "好きな食べ物を選択" in response.data.decode("utf-8")
+
+    def test_submit_missing_natto(self, client):
+        response = client.post(
+            "/submit",
+            data={
+                "age_group": "20代",
+                "favorite_food": "寿司",
+                "natto_frequency": "",
+                "region": "関東",
+                "favorite_movie": "映画",
+            },
+        )
+        assert response.status_code == 200
+        assert "納豆を食べる頻度を選択" in response.data.decode("utf-8")
+
+    def test_submit_missing_region(self, client):
+        response = client.post(
+            "/submit",
+            data={
+                "age_group": "20代",
+                "favorite_food": "寿司",
+                "natto_frequency": "毎日",
+                "region": "",
+                "favorite_movie": "映画",
+            },
+        )
+        assert response.status_code == 200
+        assert "お住まいの地方を選択" in response.data.decode("utf-8")
 
     def test_submit_missing_movie(self, client):
         response = client.post(
@@ -62,6 +98,8 @@ class TestSubmit:
             data={
                 "age_group": "20代",
                 "favorite_food": "寿司",
+                "natto_frequency": "毎日",
+                "region": "関東",
                 "favorite_movie": "",
             },
         )
@@ -74,6 +112,8 @@ class TestSubmit:
             data={
                 "age_group": "不正な値",
                 "favorite_food": "寿司",
+                "natto_frequency": "毎日",
+                "region": "関東",
                 "favorite_movie": "映画",
             },
         )
@@ -86,6 +126,8 @@ class TestSubmit:
             data={
                 "age_group": "20代",
                 "favorite_food": "不正な値",
+                "natto_frequency": "毎日",
+                "region": "関東",
                 "favorite_movie": "映画",
             },
         )
@@ -98,6 +140,8 @@ class TestSubmit:
             data={
                 "age_group": "20代",
                 "favorite_food": "寿司",
+                "natto_frequency": "毎日",
+                "region": "関東",
                 "favorite_movie": "あ" * 201,
             },
         )
@@ -122,6 +166,8 @@ class TestResults:
             SurveyResponse(
                 age_group="20代",
                 favorite_food="寿司",
+                natto_frequency="毎日",
+                region="関東",
                 favorite_movie="千と千尋の神隠し",
             )
         )
@@ -129,6 +175,8 @@ class TestResults:
             SurveyResponse(
                 age_group="30代",
                 favorite_food="ラーメン",
+                natto_frequency="週に数回",
+                region="近畿",
                 favorite_movie="君の名は。",
             )
         )
@@ -140,6 +188,8 @@ class TestResults:
         assert data["age_groups"]["20代"] == 1
         assert data["age_groups"]["30代"] == 1
         assert data["favorite_foods"]["寿司"] == 1
+        assert data["natto_frequency"]["毎日"] == 1
+        assert data["regions"]["関東"] == 1
         assert "千と千尋の神隠し" in data["favorite_movies"]
 
 

@@ -10,6 +10,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     .parentElement.innerHTML = '<p class="no-data">まだ回答がありません</p>';
                 document.getElementById("foodChart")
                     .parentElement.innerHTML = '<p class="no-data">まだ回答がありません</p>';
+                document.getElementById("nattoChart")
+                    .parentElement.innerHTML = '<p class="no-data">まだ回答がありません</p>';
+                document.getElementById("regionChart")
+                    .parentElement.innerHTML = '<p class="no-data">まだ回答がありません</p>';
                 document.getElementById("movie-list").innerHTML =
                     '<p class="no-data">まだ回答がありません</p>';
                 return;
@@ -49,6 +53,60 @@ document.addEventListener("DOMContentLoaded", function () {
                         label: "回答数",
                         data: foodValues,
                         backgroundColor: "#4a90d9"
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1 }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Natto frequency bar chart
+            var nattoLabels = Object.keys(data.natto_frequency);
+            var nattoValues = Object.values(data.natto_frequency);
+            new Chart(document.getElementById("nattoChart"), {
+                type: "bar",
+                data: {
+                    labels: nattoLabels,
+                    datasets: [{
+                        label: "回答数",
+                        data: nattoValues,
+                        backgroundColor: "#8B6914"
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1 }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Region bar chart
+            var regionLabels = Object.keys(data.regions);
+            var regionValues = Object.values(data.regions);
+            new Chart(document.getElementById("regionChart"), {
+                type: "bar",
+                data: {
+                    labels: regionLabels,
+                    datasets: [{
+                        label: "回答数",
+                        data: regionValues,
+                        backgroundColor: "#2E8B57"
                     }]
                 },
                 options: {

@@ -45,7 +45,33 @@
     </div>
 
     <div class="form-group">
-        <label for="favorite_movie">Q3. 好きな映画は？（自由記述）</label>
+        <label>Q3. 納豆を食べる頻度は？</label>
+        <div class="radio-group">
+            {% for choice in natto_choices %}
+            <label class="radio-label">
+                <input type="radio" name="natto_frequency" value="{{ choice }}"
+                       {% if natto_frequency == choice %}checked{% endif %}>
+                <span>{{ choice }}</span>
+            </label>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Q4. お住まいの地方は？</label>
+        <div class="radio-group">
+            {% for r in region_choices %}
+            <label class="radio-label">
+                <input type="radio" name="region" value="{{ r }}"
+                       {% if region == r %}checked{% endif %}>
+                <span>{{ r }}</span>
+            </label>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="favorite_movie">Q5. 好きな映画は？（自由記述）</label>
         <input type="text" id="favorite_movie" name="favorite_movie"
                value="{{ favorite_movie|default('', true) }}"
                placeholder="例: 千と千尋の神隠し" maxlength="200">
